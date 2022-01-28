@@ -6,6 +6,9 @@ VSNPRINTF_FLAG = -DVSNPRINTF_SUPPORTED
 DEBUGFLAGS = ${VSNPRINTF_FLAG} -D_POSIX_C_SOURCE=200809L -ansi -pedantic-errors -Wall -Werror ${NO_PIE_FLAG} -I. -Iinclude -O0 -g -lcurl -lm
 RELEASEFLAGS = -DNDEBUG ${VSNPRINTF_FLAG} -D_POSIX_C_SOURCE=200809L -ansi ${NO_PIE_FLAG} -I. -Iinclude -O2 -lcurl -lm
 
+test_dot:
+	${CC} src/logging.c src/stringplus.c src/dot.c tests/test_dot.c ${DEBUGFLAGS} -o bin/test_dot.out
+
 test_json:
 	${CC} src/logging.c src/stringplus.c src/json.c src/object.c tests/test_json.c ${DEBUGFLAGS} -o bin/test_json.out
 

@@ -1,0 +1,15 @@
+digraph G {
+	rankdir=LR;
+	s0 [label="s0" style="" shape="ellipse" peripheries=1];
+	s1 [label="s1" style="" shape="ellipse" peripheries=1];
+	s2 [label="s2" style="" shape="ellipse" peripheries=1];
+	s3 [label="s3" style="" shape="ellipse" peripheries=1];
+	s0->s1 [label=""];
+	s0->s2 [label=""];
+	s0->s0 [label=""];
+	s1->s2 [label=""];
+	s1->s3 [label=""];
+	s1->s1 [label=""];
+	s2->s2 [label=""];
+	s3->s3 [label=""];
+}
