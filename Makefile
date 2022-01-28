@@ -6,7 +6,7 @@ VSNPRINTF_FLAG = -DVSNPRINTF_SUPPORTED
 DEBUGFLAGS = ${VSNPRINTF_FLAG} -D_POSIX_C_SOURCE=200809L -ansi -pedantic-errors -Wall -Werror ${NO_PIE_FLAG} -I. -Iinclude -O0 -g -lcurl -lm
 RELEASEFLAGS = -DNDEBUG ${VSNPRINTF_FLAG} -D_POSIX_C_SOURCE=200809L -ansi ${NO_PIE_FLAG} -I. -Iinclude -O2 -lcurl -lm
 
-testsuite: test_base64decoder test_curlplus test_dot test_json test_hash test_hashtable test_list test_vminmax
+testsuite: test_base64decoder test_curlplus test_dot test_json test_hash test_hashtable test_list test_vminmax test_xml
 
 test_base64decoder:
 	${CC} src/logging.c src/stringplus.c src/base64decoder.c tests/test_base64decoder.c ${DEBUGFLAGS} -o bin/test_base64decoder.out
@@ -31,3 +31,6 @@ test_list:
 
 test_vminmax:
 	${CC} src/logging.c src/stringplus.c src/vminmax.c tests/test_vminmax.c ${DEBUGFLAGS} -o bin/test_vminmax.out
+
+test_xml:
+	${CC} src/logging.c src/stringplus.c src/xml.c tests/test_xml.c ${DEBUGFLAGS} -o bin/test_xml.out
