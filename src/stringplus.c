@@ -2,13 +2,8 @@
  ** \brief Implements some extremely useful non-standard string manipulation functions.
  **/
 #include <ctype.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "debug.h"
 #include "stdlibplus.h"
-#include "unless.h"
 
 DECLARE_SOURCE("STRINGPLUS");
 

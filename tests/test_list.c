@@ -1,8 +1,11 @@
-#include "debug.h"
 #include "list.h"
-#include "stringplus.h"
 
 DECLARE_SOURCE("TEST_LIST");
+
+#define UINTA_MAX_CAPACITY 20
+#define UINTA_START "["
+#define UINTA_SEP ", "
+#define UINTA_END "]"
 
 typedef unsigned int UInt;
 
@@ -38,14 +41,14 @@ char* toString_uint(char* str, const UInt* value)
 	return str;
 }
 
-DECLARE_ARRAY_OF(UInt,10,size,array,uinta,value,id);
-DECLARE_LIST_OF(UInt,10,size,list,uintl);
+DECLARE_ARRAY_OF(UInt,UINTA_MAX_CAPACITY,size,array,uinta,value,id);
+DECLARE_LIST_OF(UInt,UINTA_MAX_CAPACITY,size,list,uintl);
 
-#define ASSERT_UINTARRAY(array)	ASSERT_ARRAY(array,size,10)
-#define ASSERT_UINTLIST(list)	ASSERT_LIST(list,size,10)
+#define ASSERT_UINTARRAY(array)	ASSERT_ARRAY(array,size,UINTA_MAX_CAPACITY)
+#define ASSERT_UINTLIST(list)	ASSERT_LIST(list,size,UINTA_MAX_CAPACITY)
 
-IMPLEMENT_ARRAY_FUNCTIONS_OF(UInt,10,size,array,uinta,uint,value,id,", ")
-IMPLEMENT_LIST_FUNCTIONS_OF(UInt,10,size,list,array,uintl,uint,", ")
+IMPLEMENT_ARRAY_FUNCTIONS_OF(UInt,UINTA_MAX_CAPACITY,size,array,uinta,uint,value,id,UINTA_START,UINTA_SEP,UINTA_END)
+IMPLEMENT_LIST_FUNCTIONS_OF(UInt,UINTA_MAX_CAPACITY,size,list,array,uintl,uint,UINTA_START,UINTA_SEP,UINTA_END)
 
 int main(int argc, const char* argv[])
 {
@@ -53,56 +56,32 @@ int main(int argc, const char* argv[])
 
 	char buffer[BUFFER_SIZE], *str = buffer;
 	UIntArray aBuffer[1], *array = aBuffer;
-	UIntList lBuffer[1], *list = lBuffer;
-	UIntIndexPair pair;
+	UInt i;
 
 	start_logging();
 
 	say(MSG_REPORT_VAR("sizeof(UIntArray)","%lu bytes",sizeof(UIntArray)));
 	say(MSG_REPORT_VAR("sizeof(UIntList)","%lu bytes",sizeof(UIntList)));
 
-	say(MSG_REPORT("Initializing array..."));
+	say(MSG_REPORT("Initializing UIntArray..."));
 	array = initialize_uinta(aBuffer);
 	ASSERT_UINTARRAY(array);
 
-	say(MSG_REPORT("Inserting 10 into array..."));
-	pair = getNew_uinta(array);
-	*pair.value = 10;
-	say(MSG_REPORT_VAR("id","%u",pair.id));
-	say(MSG_REPORT_VAR("array[id]","%u",*pair.value));
-	say(MSG_REPORT_VAR("array->size","%u",array->size));
-
-	say(MSG_REPORT("Creating a list from the array..."));
-	list = listOf_uintl(lBuffer, array);
-	ASSERT_UINTLIST(list);
-
-	say(MSG_REPORT("Inserting 5 into array..."));
-	pair = getNew_uinta(array);
-	*pair.value = 5;
-	say(MSG_REPORT_VAR("id","%u",pair.id));
-	say(MSG_REPORT_VAR("array[id]","%u",*pair.value));
-	say(MSG_REPORT_VAR("array->size","%u",array->size));
-	say(MSG_REPORT_VAR("list->size","%u",list->size));
-
-	pair.id = 0U;
-	pair.value = get_uinta(array, pair.id);
-	say(MSG_REPORT_VAR("id","%u",pair.id));
-	say(MSG_REPORT_VAR("array[id]","%u",*pair.value));
-
-	say(MSG_REPORT_VAR("array->size","%u",array->size));
 	str = toString_uinta(buffer, array);
 	ASSERT(str);
 	ASSERT(strcmp(str,""));
 	ASSERT(strlen(str) < BUFFER_SIZE);
-	say(MSG_REPORT_VAR("array","%s",str));
-	say(MSG_REPORT("Clearing array..."));
-	clear_uinta(array);
-	say(MSG_REPORT_VAR("array->size","%u",array->size));
+	say(MSG_REPORT_VAR("UIntArray","%s",str));
+
+	say(MSG_REPORT("Inserting [0-10]..."));
+	for (i = 0; i <= 10; i++)
+		*(getNew_uinta(array).value) = i;
+
 	str = toString_uinta(buffer, array);
 	ASSERT(str);
 	ASSERT(strcmp(str,""));
 	ASSERT(strlen(str) < BUFFER_SIZE);
-	say(MSG_REPORT_VAR("array","%s",str));
+	say(MSG_REPORT_VAR("UIntArray","%s",str));
 
 	stop_logging();
 

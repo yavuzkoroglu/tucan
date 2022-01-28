@@ -2,8 +2,6 @@
  ** \brief Implements the functions declared in logging.h
  **/
 #include <ctype.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "debug.h"
@@ -232,38 +230,6 @@ void say(const char* format, ...)
 	vSay(format, args);
 }
 
-void vWarningIf(const int warningCondition, const char* format, va_list args)
-{
-	if (warningCondition) {
-		vWarning(format, args);
-	} else {
-		va_end(args);
-	}
-}
-
-void warningIf(const int warningCondition, const char* format, ...)
-{
-	va_list args;
-	va_start(args, format);
-	vWarningIf(warningCondition, format, args);
-}
-
-void vWarningUnless(const int noWarningCondition, const char* format, va_list args)
-{
-	if (noWarningCondition) {
-		va_end(args);
-	} else {
-		vWarning(format, args);
-	}
-}
-
-void warningUnless(const int noWarningCondition, const char* format, ...)
-{
-	va_list args;
-	va_start(args, format);
-	vWarningUnless(noWarningCondition, format, args);
-}
-
 void vError(const char* format, va_list args)
 {
 	vWarning(format, args);
@@ -275,38 +241,6 @@ void error(const char* format, ...)
 	va_list args;
 	va_start(args, format);
 	vError(format, args);
-}
-
-void vErrorIf(const int errorCondition, const char* format, va_list args)
-{
-	if (errorCondition) {
-		vError(format, args);
-	} else {
-		va_end(args);
-	}
-}
-
-void errorIf(const int errorCondition, const char* format, ...)
-{
-	va_list args;
-	va_start(args, format);
-	vErrorIf(errorCondition, format, args);
-}
-
-void vErrorUnless(const int noErrorCondition, const char* format, va_list args)
-{
-	if (noErrorCondition) {
-		va_end(args);
-	} else {
-		vError(format, args);
-	}
-}
-
-void errorUnless(const int noErrorCondition, const char* format, ...)
-{
-	va_list args;
-	va_start(args, format);
-	vErrorUnless(noErrorCondition, format, args);
 }
 
 void start_logging()
