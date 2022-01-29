@@ -1,5 +1,4 @@
 #include "sport.h"
-#include "stdioplus.h"
 #include "teamlist.h"
 
 DECLARE_SOURCE("MAIN");
