@@ -12,7 +12,7 @@
 		#define HT_MAX_KEYS 1000
 	#endif
 	#ifndef HT_MAX_KEY_SIZE
-		#define HT_MAX_KEY_SIZE 65536
+		#define HT_MAX_KEY_SIZE 256
 	#endif
 	#ifndef HT_MAX_SAME_HASHES
 		#define HT_MAX_SAME_HASHES 10

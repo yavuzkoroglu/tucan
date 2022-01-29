@@ -6,7 +6,15 @@ VSNPRINTF_FLAG = -DVSNPRINTF_SUPPORTED
 DEBUGFLAGS = ${VSNPRINTF_FLAG} -D_POSIX_C_SOURCE=200809L -ansi -pedantic-errors -Wall -Werror ${NO_PIE_FLAG} -I. -Iinclude -O0 -g -lcurl -lm
 RELEASEFLAGS = -DNDEBUG ${VSNPRINTF_FLAG} -D_POSIX_C_SOURCE=200809L -ansi ${NO_PIE_FLAG} -I. -Iinclude -O2 -lcurl -lm
 
-testsuite: test_base64decoder test_curlplus test_dot test_json test_hash test_hashtable test_list test_vminmax test_xml
+SRC = src/hash.c src/hashtable.c src/logging.c src/object.c src/stringplus.c src/player.c src/team.c src/teamlist.c src/main.c
+
+tucanrelease:
+	${CC} ${SRC} ${RELEASEFLAGS} -o bin/tucan.out
+
+tucandebug:
+	${CC} ${SRC} ${DEBUGFLAGS} -o bin/tucan.out
+
+testsuite: test_base64decoder test_curlplus test_dot test_json test_hash test_hashtable test_list test_player test_vminmax test_xml
 
 test_base64decoder:
 	${CC} src/logging.c src/stringplus.c src/base64decoder.c tests/test_base64decoder.c ${DEBUGFLAGS} -o bin/test_base64decoder.out
@@ -28,6 +36,9 @@ test_hashtable:
 
 test_list:
 	${CC} src/logging.c src/stringplus.c tests/test_list.c ${DEBUGFLAGS} -o bin/test_list.out
+
+test_player:
+	${CC} src/logging.c src/stringplus.c src/player.c tests/test_player.c ${DEBUGFLAGS} -o bin/test_player.out
 
 test_vminmax:
 	${CC} src/logging.c src/stringplus.c src/vminmax.c tests/test_vminmax.c ${DEBUGFLAGS} -o bin/test_vminmax.out
