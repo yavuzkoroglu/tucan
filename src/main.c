@@ -100,7 +100,7 @@ int main(const int argc, const char* argv[])
 					ratingContribution = coefficient * rating;
 					player->rating += ratingContribution;
 					if (ratingId == sports[sid]->winnerRatingId) {
-						scoreContribution = ratingContribution;
+						scoreContribution = rating;
 					}
 				}
 
