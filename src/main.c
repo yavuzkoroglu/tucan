@@ -41,7 +41,7 @@ int main(const int argc, const char* argv[])
 	Sport sports[MAX_NSPORTS][1];
 	TeamArray taBuffer[1], *teams = taBuffer;
 	TeamList tlBuffer[1], *winners = tlBuffer;
-	Player pBuffer[1], *player = pBuffer;
+	Player pBuffer[2][1], *player = pBuffer[0], *mvp = pBuffer[1];
 	char buffer[BUFFER_SIZE], *str = buffer;
 	Team* team;
 
@@ -83,7 +83,7 @@ int main(const int argc, const char* argv[])
 				ASSERT(str[len-1]=='\n');
 				str[len-1] = '\0';
 
-				player = fromString_p(pBuffer, str);
+				player = fromString_p(pBuffer[0], str);
 				ASSERT_PLAYER(player);
 
 				/* Calculate player rating along with the player's contribution to team score. */
@@ -119,9 +119,11 @@ int main(const int argc, const char* argv[])
 		str = toString_ta(buffer, teams);
 		say("TEAMS = %s",str);
 
-		/* Determine winner(s) */
+		/* Determine winner(s) and the overall MVP */
 		winners = initialize_tl(tlBuffer);
 		ASSERT_TEAMLIST(winners);
+		mvp = fromPlayer_p(pBuffer[1], teams->array->mvp);
+		ASSERT_PLAYER(mvp);
 		for (
 			team = teams->array;
 			team < teams->array + teams->nTeams;
@@ -137,7 +139,16 @@ int main(const int argc, const char* argv[])
 			} else if (team->score == winners->list[0]->score) {
 				addTeam_tl(winners,team);
 			}
+
+			if (team->mvp->rating > mvp->rating) {
+				mvp = fromPlayer_p(pBuffer[1], team->mvp);
+				ASSERT_PLAYER(mvp);
+			}
 		}
+
+		/* Print overall MVP */
+		str = toString_p(buffer, mvp);
+		say("OVERALL MVP = %s\n",str);
 
 		/* Print winners */
 		if (winners->nTeams < teams->nTeams) {
